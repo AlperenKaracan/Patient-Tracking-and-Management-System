@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Doktor Güncelle{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>Doktor Güncelle</h1>
+    <form method="POST">
+        <div class="form-group">
+            <label for="ad">Ad:</label>
+            <input type="text" class="form-control" id="ad" name="ad" value="{{ doktor[1] }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="soyad">Soyad:</label>
+            <input type="text" class="form-control" id="soyad" name="soyad" value="{{ doktor[2] }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="uzmanlik_alani">Uzmanlık Alanı:</label>
+            <input type="text" class="form-control" id="uzmanlik_alani" name="uzmanlik_alani" value="{{ doktor[3] }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="calistigi_hastane">Çalıştığı Hastane:</label>
+            <select class="form-control" id="calistigi_hastane" name="calistigi_hastane">
+                {% for hastane in hastaneler %}
+                <option value="{{ hastane }}" {% if doktor[4] == hastane %}selected{% endif %}>{{ hastane }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Güncelle</button>
+        <a href="{{ url_for('doktorlar') }}" class="btn btn-secondary">Geri</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Giriş Yap{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Giriş Yap</h1>
+    <form method="POST">
+        <div class="form-group">
+            <label for="ad">Ad:</label>
+            <input type="text" class="form-control" id="ad" name="ad" required>
+        </div>
+        <div class="form-group">
+            <label for="soyad">Soyad:</label>
+            <input type="text" class="form-control" id="soyad" name="soyad" required>
+        </div>
+        <div class="form-group">
+            <label for="kullanici_turu">Kullanıcı Türü:</label>
+            <select class="form-control" id="kullanici_turu" name="kullanici_turu" required>
+                <option value="Hasta">Hasta</option>
+                <option value="Doktor">Doktor</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Giriş Yap</button>
+    </form>
+</div>
+{% endblock %}

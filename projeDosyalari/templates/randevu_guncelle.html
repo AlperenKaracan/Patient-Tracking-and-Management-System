@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Randevu Güncelle{% endblock %}
+{% block content %}
+<div class="container">
+    <h1 class="mt-5">Randevu Güncelle</h1>
+    <form method="POST">
+        <div class="form-group">
+            <label for="hasta_id">Hasta:</label>
+            <input type="text" class="form-control" id="hasta_id" value="{{ randevu[5] }} {{ randevu[6] }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="uzmanlikAlani">Uzmanlık Alanı:</label>
+            <select class="form-control" id="uzmanlikAlani" required>
+                {% for uzmanlik in uzmanlik_alanlari %}
+                <option value="{{ uzmanlik }}" {% if randevu[7] == uzmanlik %}selected{% endif %}>{{ uzmanlik }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="doktor">Doktor:</label>
+            <select class="form-control" id="doktor" name="doktor_id" required>
+                <option value="{{ randevu[2] }}">{{ randevu[8] }} {{ randevu[9] }}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="randevu_tarihi">Randevu Tarihi:</label>
+            <input type="date" class="form-control" id="randevu_tarihi" name="randevu_tarihi" value="{{ randevu[3] }}" min="{{ current_date }}" required>
+        </div>
+        <div class="form-group">
+            <label for="randevu_saati">Randevu Saati:</label>
+            <input type="time" class="form-control" id="randevu_saati" name="randevu_saati" value="{{ randevu[4].strftime('%H:%M') }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Güncelle</button>
+        <a href="{{ url_for('randevular') }}" class="btn btn-secondary">Geri</a>
+    </form>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const uzmanlikAlaniSelect = document.getElementById('uzmanlikAlani');
+    const doktorSelect = document.getElementById('doktor');
+
+    uzmanlikAlaniSelect.addEventListener('change', function () {
+        const uzmanlikAlani = this.value;
+
+        fetch(`/doktorlar_getir/${uzmanlikAlani}`)
+            .then(response => response.json())
+            .then(data => {
+                doktorSelect.innerHTML = '';
+
+                data.doktorlar.forEach(doktor => {
+                    const option = document.createElement('option');
+                    option.value = doktor.doktor_id;
+                    option.textContent = `${doktor.ad} ${doktor.soyad}`;
+                    doktorSelect.appendChild(option);
+                });
+            });
+    });
+});
+</script>
+{% endblock %}

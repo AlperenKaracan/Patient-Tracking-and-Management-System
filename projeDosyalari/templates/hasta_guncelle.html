@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Hasta Güncelle{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>Hasta Güncelle</h1>
+    <form method="POST">
+        <div class="form-group">
+            <label for="ad">Ad:</label>
+            <input type="text" class="form-control" id="ad" name="ad" value="{{ hasta[1] }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="soyad">Soyad:</label>
+            <input type="text" class="form-control" id="soyad" name="soyad" value="{{ hasta[2] }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="dogum_tarihi">Doğum Tarihi:</label>
+            <input type="date" class="form-control" id="dogum_tarihi" name="dogum_tarihi" value="{{ hasta[3] }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="cinsiyet">Cinsiyet:</label>
+            <input type="text" class="form-control" id="cinsiyet" name="cinsiyet" value="{{ hasta[4] }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="telefon_numarasi">Telefon Numarası:</label>
+            <input type="tel" class="form-control" id="telefon_numarasi" name="telefon_numarasi" value="{{ hasta[5] }}" required>
+        </div>
+        <div class="form-group">
+            <label for="adres">Adres:</label>
+            <textarea class="form-control" id="adres" name="adres" rows="3" required>{{ hasta[6] }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Güncelle</button>
+        <a href="{{ url_for('hastalar') }}" class="btn btn-secondary">Geri</a>
+    </form>
+</div>
+{% endblock %}

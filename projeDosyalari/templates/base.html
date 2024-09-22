@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}{% endblock %}</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .navbar {
+            background-color: #007bff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+            font-weight: bold;
+        }
+        .navbar-brand:hover, .nav-link:hover {
+            color: #dcdcdc !important;
+        }
+        .footer {
+            background-color: #007bff;
+            padding: 20px 0;
+            color: white;
+            text-align: center;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        .container-custom {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 20px;
+            transition: background-color 0.3s, box-shadow 0.3s, color 0.3s;
+        }
+        .hero-section {
+            background: url('https://source.unsplash.com/1600x900/?hospital') no-repeat center center;
+            background-size: cover;
+            padding: 100px 0;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+        .hero-section::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        .hero-content h1 {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+        .hero-content p {
+            font-size: 1.5rem;
+        }
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+            border-radius: 50px;
+            padding: 10px 20px;
+            margin: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        .btn-custom-group {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .dark-mode {
+            background-color: #121212;
+            color: #ffffff;
+        }
+        .dark-mode .navbar, .dark-mode .footer {
+            background-color: #333333;
+        }
+        .dark-mode .container-custom {
+            background-color: #333333;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+        .dark-mode .btn-custom {
+            background-color: #444444;
+            color: white;
+        }
+        .dark-mode .btn-custom:hover {
+            background-color: #222222;
+        }
+        .dark-mode .alert {
+            background-color: #444444;
+            color: #ffffff;
+            border-color: #555555;
+        }
+        .dark-mode .alert .close {
+            color: #ffffff;
+        }
+        .dark-mode .hero-section {
+            background: url('https://source.unsplash.com/1600x900/?hospital') no-repeat center center;
+            background-size: cover;
+            color: white;
+        }
+        .dark-mode .hero-section::after {
+            background: rgba(0, 0, 0, 0.7);
+        }
+        .dark-mode .jumbotron-custom {
+            background-color: #444444;
+            color: #ffffff;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+        .dark-mode .jumbotron-custom h1,
+        .dark-mode .jumbotron-custom p {
+            color: #ffffff;
+        }
+        .dark-mode .jumbotron-custom .lead {
+            color: #bbbbbb;
+        }
+    </style>
+</head>
+<body class="{% if 'theme' in request.cookies and request.cookies['theme'] == 'dark' %}dark-mode{% endif %}">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="{{ url_for('index') }}"><i class="fas fa-hospital"></i> Hasta Takip ve Doktor Yönetimi</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('hastalar') }}"><i class="fas fa-user-injured fa-icon"></i> Hastalar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('doktorlar') }}"><i class="fas fa-user-md fa-icon"></i> Doktorlar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('randevular') }}"><i class="fas fa-calendar-alt fa-icon"></i> Randevular</a>
+                </li>
+                {% if session.get('loggedin') %}
+                    {% if session.get('user_type') == 'Hasta' %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('hasta_randevularim') }}"><i class="fas fa-calendar-check fa-icon"></i> Randevularım</a>
+                        </li>
+                    {% elif session.get('user_type') == 'Doktor' %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('doktor_hasta_randevulari') }}"><i class="fas fa-user-injured fa-icon"></i> Hastalarım</a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt fa-icon"></i> Çıkış Yap</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('register') }}"><i class="fas fa-user-plus fa-icon"></i> Kayıt Ol</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt fa-icon"></i> Giriş Yap</a>
+                    </li>
+                {% endif %}
+            </ul>
+            <button class="btn btn-outline-light ml-auto" id="themeToggleButton" onclick="toggleDarkMode()">Karanlık Mod</button>
+        </div>
+    </nav>
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1>Hasta Takip ve Doktor Yönetimi</h1>
+            <p>Hastaların kayıtlarını tutabilir, doktorlarla randevu alabilir ve randevuları görüntüleyebiliriz.</p>
+            <div class="btn-custom-group">
+                <a class="btn btn-custom" href="{{ url_for('hastalar') }}"><i class="fas fa-user-injured"></i> Hastalar</a>
+                <a class="btn btn-custom" href="{{ url_for('doktorlar') }}"><i class="fas fa-user-md"></i> Doktorlar</a>
+                <a class="btn btn-custom" href="{{ url_for('randevular') }}"><i class="fas fa-calendar-alt"></i> Randevular</a>
+            </div>
+        </div>
+    </div>
+    <div class="container container-custom jumbotron-custom">
+        {% block content %}{% endblock %}
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">© 2024 Hasta Takip ve Doktor Yönetimi </span>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+            document.cookie = `theme=${theme}; path=/`;
+            document.getElementById('themeToggleButton').innerText = theme === 'dark' ? 'Aydınlık Mod' : 'Karanlık Mod';
+        }
+
+        function applySavedTheme() {
+            const themeCookie = document.cookie.split('; ').find(row => row.startsWith('theme='));
+            if (themeCookie) {
+                const theme = themeCookie.split('=')[1];
+                if (theme === 'dark') {
+                    document.body.classList.add('dark-mode');
+                    document.getElementById('themeToggleButton').innerText = 'Aydınlık Mod';
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', applySavedTheme);
+    </script>
+</body>
+</html>

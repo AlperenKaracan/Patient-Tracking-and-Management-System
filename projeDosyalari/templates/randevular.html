@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Randevular{% endblock %}
+
+{% block content %}
+<div class="container container-custom">
+    <h1>Randevular</h1>
+    <a href="{{ url_for('randevu_ekle') }}" class="btn btn-success mb-3">Yeni Randevu Ekle</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Hasta ID</th>
+                <th>Doktor ID</th>
+                <th>Randevu Tarihi</th>
+                <th>Randevu Saati</th>
+                <th>İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for randevu in randevular %}
+            <tr>
+                <td>{{ randevu[0] }}</td>
+                <td>{{ randevu[1] }}</td>
+                <td>{{ randevu[2] }}</td>
+                <td>{{ randevu[3] }}</td>
+                <td>{{ randevu[4] }}</td>
+                <td>
+                    <a href="{{ url_for('randevu_guncelle', randevu_id=randevu[0]) }}" class="btn btn-primary btn-sm">Güncelle</a>
+                    <form action="{{ url_for('randevu_sil', randevu_id=randevu[0]) }}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger btn-sm">Sil</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            {% if prev_url %}
+            <li class="page-item"><a class="page-link" href="{{ prev_url }}">Önceki</a></li>
+            {% endif %}
+            {% if next_url %}
+            <li class="page-item"><a class="page-link" href="{{ next_url }}">Sonraki</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <a href="/" class="btn btn-secondary">Ana Sayfa</a>
+</div>
+{% endblock %}

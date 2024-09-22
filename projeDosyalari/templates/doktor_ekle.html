@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Yeni Doktor Ekle{% endblock %}
+{% block content %}
+<h1>Yeni Doktor Ekle</h1>
+<form method="POST" class="form-container">
+    <div class="form-group">
+        <label for="ad">Ad:</label>
+        <input type="text" class="form-control" id="ad" name="ad" required>
+    </div>
+    <div class="form-group">
+        <label for="soyad">Soyad:</label>
+        <input type="text" class="form-control" id="soyad" name="soyad" required>
+    </div>
+    <div class="form-group">
+        <label for="uzmanlik_alani">Uzmanlık Alanı:</label>
+        <select class="form-control" id="uzmanlik_alani" name="uzmanlik_alani" required>
+            <option value="Beyin ve Sinir Cerrahisi">Beyin ve Sinir Cerrahisi</option>
+            <option value="Cildiye">Cildiye</option>
+            <option value="Diş Hekimliği">Diş Hekimliği</option>
+            <option value="Endodonti">Endodonti</option>
+            <option value="Fiziksel Tıp">Fiziksel Tıp</option>
+            <option value="Genel Cerrahi">Genel Cerrahi</option>
+            <option value="Göğüs Hastalıkları">Göğüs Hastalıkları</option>
+            <option value="Göz Hastalıkları">Göz Hastalıkları</option>
+            <option value="Dahiliye">Dahiliye</option>
+            <option value="Kardiyoloji">Kardiyoloji</option>
+            <option value="Nöroloji">Nöroloji</option>
+            <option value="Ortodonti">Ortodonti</option>
+            <option value="Psikiyatri">Psikiyatri</option>
+            <option value="Radyoloji">Radyoloji</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="calistigi_hastane">Çalıştığı Hastane:</label>
+        <select class="form-control" id="calistigi_hastane" name="calistigi_hastane" required>
+            <option value="Acıbadem Hastanesi">Acıbadem Hastanesi</option>
+            <option value="Memorial Hastanesi">Memorial Hastanesi</option>
+            <option value="Florence Nightingale Hastanesi">Florence Nightingale Hastanesi</option>
+            <option value="Medical Park Hastanesi">Medical Park Hastanesi</option>
+            <option value="Liv Hospital">Liv Hospital</option>
+            <option value="American Hospital">American Hospital</option>
+            <option value="Şişli Florence Nightingale Hastanesi">Şişli Florence Nightingale Hastanesi</option>
+            <option value="Anadolu Sağlık Merkezi">Anadolu Sağlık Merkezi</option>
+            <option value="Medicana International İstanbul Hastanesi">Medicana International İstanbul Hastanesi</option>
+            <option value="İstanbul Cerrahi Hastanesi">İstanbul Cerrahi Hastanesi</option>
+            <option value="Kadıköy Hastanesi">Kadıköy Hastanesi</option>
+            <option value="Medical Park Bahçelievler Hastanesi">Medical Park Bahçelievler Hastanesi</option>
+            <option value="Beşiktaş Hastanesi">Beşiktaş Hastanesi</option>
+            <option value="Bahçelievler Medical Park Hastanesi">Bahçelievler Medical Park Hastanesi</option>
+            <option value="Maltepe Medical Park Hastanesi">Maltepe Medical Park Hastanesi</option>
+            <option value="Marmara Üniversitesi Pendik Eğitim ve Araştırma Hastanesi">Marmara Üniversitesi Pendik Eğitim ve Araştırma Hastanesi</option>
+            <option value="Dr. Sadi Konuk Eğitim ve Araştırma Hastanesi">Dr. Sadi Konuk Eğitim ve Araştırma Hastanesi</option>
+            <option value="Etiler Acıbadem Hastanesi">Etiler Acıbadem Hastanesi</option>
+            <option value="Medipol Mega Üniversite Hastanesi">Medipol Mega Üniversite Hastanesi</option>
+            <option value="VM Medical Park Hastanesi">VM Medical Park Hastanesi</option>
+            <option value="Sultangazi Hastanesi">Sultangazi Hastanesi</option>
+            <option value="Medipol Üniversitesi Hastanesi">Medipol Üniversitesi Hastanesi</option>
+            <option value="Bakırköy Dr. Sadi Konuk Eğitim ve Araştırma Hastanesi">Bakırköy Dr. Sadi Konuk Eğitim ve Araştırma Hastanesi</option>
+            <option value="Üsküdar Devlet Hastanesi">Üsküdar Devlet Hastanesi</option>
+            <option value="Kağıthane Devlet Hastanesi">Kağıthane Devlet Hastanesi</option>
+            <option value="Sivas Devlet Hastanesi">Sivas Devlet Hastanesi</option>
+            <option value="Amasya Devlet Hastanesi">Amasya Devlet Hastanesi</option>
+            <option value="Tuzla Devlet Hastanesi">Tuzla Devlet Hastanesi</option>
+            <option value="Ankara Devlet Hastanesi">Ankara Devlet Hastanesi</option>
+            <option value="Bursa Devlet Hastanesi">Bursa Devlet Hastanesi</option>
+            <option value="İzmir Devlet Hastanesi">İzmir Devlet Hastanesi</option>
+            <option value="Muğla Devlet Hastanesi">Muğla Devlet Hastanesi</option>
+        </select>
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary btn-lg">Ekle</button>
+        <a href="{{ url_for('doktorlar') }}" class="btn btn-secondary btn-lg">Geri</a>
+    </div>
+</form>
+{% endblock %}

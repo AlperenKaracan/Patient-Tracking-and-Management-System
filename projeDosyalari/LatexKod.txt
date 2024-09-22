@@ -1,0 +1,187 @@
+\documentclass[12pt]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\renewcommand{\abstractname}{} % clear the title
+\usepackage{times}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+
+\title{Hasta Takip ve Yönetim Sistemi\\
+}
+
+\author{\IEEEauthorblockN{Alperen Karacan}
+\IEEEauthorblockA{\textit{210201096} \\}
+\and
+\IEEEauthorblockN{ Mehmet Ali Kır}
+\IEEEauthorblockA{\textit{210201033} \
+}
+}
+
+\maketitle
+
+\begin{abstract}
+Programlama Laboratuvarı 2 dersini son projesi olarak bize verilen bu projede bizden temel düzeyde hastane bilgi işlem sistemi yapılması istendi. Bu projede amaç veri tabanının aktif kullanımı ile programların veri iletişiminin pekiştirilmesini sağlamaktı.Bunun için de belli başlı isterler belirtilerek proje için bir rota verilmişti. Öncelikle veri tabanında buluncak hasta ve randevu bilgileri gibi temel seviye bilgilerin normalizasyon kurallarına uyularak yapılması ve sistemin tam verimlere verilere erişim sağlayabilmesi isteri var. Ardından nesneye yönelik programlamanın çeşitli kullanımların eklenmesi, https protokollerinin sağlanması ve en önemli kısım olan, veri tabanınyla programın ilişki kurduğu ve bu ilişki ile veritabanında değişiklikler yapılmasında programın aracı kılınmasını sağlayan bir program olması isteriydi. Son özelliği hastaların, randevuların, doktorların ve diğer nesne unsurlarının veri tabanındaki adreslerine ulaşılarak tam anlamıyla bir temel hastane yönetim sistemi kurulmasını amaçlar.\\
+\end{abstract}
+
+\section{Özet}
+Projemize başladığımız planlama aşamasında hangi dilin bizim için daha iyi olacağına ve hangi local database service in bize en uygun olduğuna karar vermeye çalıştık. Dil kısıtı olmadığından python kullanarak daha rahat kaynak erişimine ve daha kolaylaştırılmış sistemsel yapılara sahip olduk. Bununla beraber proje geliştirme hızımızda fark yarattık ve farklı kaynaklardan daha verimli şekilde yararlanablidik.Python ın kaynak ve community sini kullandığımızı ayrıca belirtmeye bile gerek yok. Aynı zamanda python bize projede belirlenen sınırlar dahilinde özel fonksiyonlar sunarak işimizi kolaylaştırmanın yanında kesinlikle daha verimli hale getirmiş ve geliştirme sürecine ciddi katkı sağlamıştır. Ayrıca veri tabanı tarafında da Postrgre SQL e olan yatkınlığımız, daha doğrusu tecrübemiz, dahilinde en mantıklı kullanım olacağını kararlaştırdık ki bize geliştirme aşamasında o da ,özellikle arayüzde yabancılık çekmememizle, hız ve verimlilik sağladı desek yanlış bir yargı olmaz. Artık projenin geliştirme aşamasına geçelim.\\
+
+\section{Giriş}
+Planlama aşamasında öncelikle projemizin geliştirme adımlarını belirledik. Böylece belirlene deadline lar ile projemizde düzenli yol kat edebildik. Sırayla veri tabanı ve normalizasyon, ardından back end ve en son da front end ile projemizin geliştirmesini tamamladıK. Her zaman daha iyisi olabilir ancak bu projede elimizden gelen, en iyisiydi. 
+\\
+
+\section{Yöntem}
+Öncelikle veri tabanında kodda nesne olarak oluşturduğumuz varlıkların verilerini düzenli şekilde belirten ve organize eden bir tablolama oluşturduk. Bunu da dokümanda bize verilen yönergeler dahilinde yaparak projenin doğruluğundan yaparken emin olduk. Özellikleri tablolar halinde verilen bu nesnelerimizin bir birleriyle bağlarını belirtecek olan anahtarlarını tablolarımızı normalizasyona uygun bir şekilde değiştirdikten sonra verdik ve nesnelerin birbiri arasında nesneye yönelik programlama mantığı ile iletişiminin veri tabanı kısmını tamamlamış olduk.\\
+Bu yaptıklarımızı işleme dökerken de SQL dilinin membağına ererek bizi framework kullanmadan verilerle gerek işlemleri yapabilmemizi sağladı ve işimizi kolaylaştırdı. Böylelikle veri tabanının arka kısma bağlanma komutlarını ve arka planda simüle edilen yapının etkilerinin nasıl veri tabanına aktarılacağına karar vermiş olduk. Yani artık nesneye yönelik programlama kısmına gelebildik.\\
+
+Öncelikle nesne olarak özelliklendirdiğimiz ve işlevseliğinin sınıflar arası da olduğu, verilerine belirlenmiş SQL kodlarıyla yönlenen ve bunun sonunda da işlemi gerçekleştiren hasta ekle komutumuzun resmini görüyoruz.
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=3.33in, height=6cm ]{hasta ekle.PNG}}
+\caption{Hasta nesnemizinin metodu ve özellikleriyle eklenmesi}
+\label{fig}
+\end{figure}
+
+Ardından da yine belirlediğimiz nesnemmizin üzerinde işlem yapacak olan ama görece sadece okumadiyebileceğimiz işlemi ile verinin grüntülenmesini sağlıyoruz. Bu fonksiyonun aynı zamanda doktor ve randevu nesneleri içinde geçerli olup, yapılan değişiklikler ve ekleme çıkarmalarla da bağlı olduğu diğer tabloları etkilediğini söylemek mümkün.\\
+\\
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=3.33in, height=9cm ]{hasta gör.PNG}}
+\caption{Hastamızın doktor ekranında görülebilmesinin sağlanması }
+\label{fig}
+\end{figure}
+
+Hasta nesnemizin verisiyle rahat bir şekilde işlem yapabildiğimizi ve aynı zamanda nesneye yönelik programlama yapısındaki basamaklı değişimlerin bağlı etkilerinin görülmesine sebep olacak o işlemlerden biri olan güncelleme işlemini yapan kodu görüyoruz. Bu kodun da diğer kodlar gibi randevu ve doktor nesneleri için geçerli olup bu nesnelerin de diğer veri tablolarını isterler ve nesneye yönelik programlama kurallarına göre etkilediğini söylemek mümkün.\\
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=3.33in, height=7.5cm ]{hasta güncelle.PNG}}
+\caption{Eklenmiş hasta nesnesinin spesifik özelliklerinin veir tabanında güncellenmesini sağlayan kod}
+\label{fig}
+\end{figure}
+
+Akabinde başka bir veri tabanı nesne özelliği değişimi olan hasta silme işlemini gerçekleştiren kodu görüntüleyebiliyoruz. Bir hastayı temsil eden bir nesneyi silmek, genellikle karmaşık bir işlemdir. Bunun nedeni, silinen nesnenin diğer nesnelerle ilişkili olabilmesidir. Örneğin, bir hasta nesnesi, doktor nesneleri ve randevu nesneleri ile ilişkilendirilebilir. Bir hasta nesnesini silmeden önce, bu ilişkilerin nasıl ele alınacağı belirlenmelidir.
+Ayrıca diğer veri tabanı işlmelerinin  de bu işlemlerle karışmamasının sağlayıcısı aslında yine nesneye yönelik programlama denebilir. Çünkü yapılacak işlemlerin parçalanması ve bu parçalanmalar ile görevlendirmenin düzgün olması ve böylece daha verimli hızlı ve kullanışlı bir sistemin oluşmasını sağlar. Bu da bizim ne kadar bu projede düşünmesek de görece büyük projelerdeki hızların ve verimliliklerin boyutsal farklarında yapacağı gözardı edilemez etkiyle önemini belli edecektir.
+
+
+\\
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=3.33in, height=6cm ]{hasta sil.PNG}}
+\caption{Daha önce eklenmiş hasta nesnesinin silinmesini sağlayan kod bloğu }
+\label{fig}
+\end{figure}
+
+Geldiğimiz kısımda hastane sisteminden çok genel sürekliliklerin ve belli süreçlerin topluluklarca organizasyonunu sağlayan kayıt ve giriş sistemlerine gelelim. Göreceğimiz kod, hastaların kayıtlarını yapmasını sağlıyor. Bu da yönetilebilecek temel bir kayıt sistemi sağlıyor. Kayıt olma kodu SQL kodlarıyla beraber görülebilir.\\
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=3.33in, height=9.15cm ]{signup.PNG}}
+\caption{Alınan bilgilerin nesneleştirilip veri tabanına kaydeden kod }
+\label{fig}
+\end{figure}
+
+Bu işlevin yanı sıra kayıt özelliği olmasının bir diğer yanı olan giriş sistemi de mevcut. Bu iki sistem de hem doktor hem hasta için geçerli olup dinamik bir erişim ile karşılıklı tarafların yeterli bilgiye yeterli yetki ve güvenlikle ulaşmasını sağlıyor. Kodu yazının devamında görülebilir.
+\\
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=3.33in, height=10cm ]{login.PNG}}
+\caption{Kaydolan ve verileri nesneleştirilen kimsenin giriş yapmasını sağlayan kod}
+\label{fig}
+\end{figure}
+
+Kodumuzun devamında aslında aşama olarak da devam ederek kayıt olmuş ve giriş yapmış kullanıcıların gerekli bilgilerini nasıl görüntüleyebileceğinin örnek bir kodunu görmüş oluyoruz. Gördüğümüz kodda doktor kullanıcı kendisine randevusu olan hastaları görebiliyor. Aynısını hastaların randevularını görüntüleyebildiklerini de söyleyebiliriz.
+Kodu yazının devamındadır.\\
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=3.33in, height=4.5cm ]{hasta gör.PNG}}
+\caption{Doktorun hastalarını görüntüleyebileceği kod }
+\label{fig}
+\end{figure}
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=3.33in, height=8.2cm ]{randevularim.PNG}}
+\caption{Hastanın randevularını görüntüleybilmesini sağlayan kod }
+\label{fig}
+\end{figure}
+
+Tüm bu nesneleştirerek kaydedip ilişkilendirme ile yönetme sistemimizi ifade ediyor. Böylece elimizdeki projeyi teslim etmiş ve temel seviye bir yönetim sistemi kurmuş oluyoruz. Yapıla üyelik işlemleri görüntülemeler ve ön yüz çalışmları tamamen isterlere binaen yapılmış olup bazı rütuşlarla fark ortaya konulmuşutur.
+
+
+\section{Deneysel Sonuçlar}
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=3.33in, height=8cm ]{hastalar.jpg}}
+\caption{Tüm hastaların görüntülendiği ekran }
+\label{fig}
+\end{figure}
+
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=3.33in, height=6cm ]{ana sayfa.jpg}}
+\caption{Hastane Yönetim Sistemi sitemizin  ana sayfası }
+\label{fig}
+\end{figure}
+
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=3.33in, height=6cm ]{giriş ekranı.jpg}}
+\caption{Kayıtlı kullanıcıların giriş ekranı }
+\label{fig}
+\end{figure}
+
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=3.33in, height=6cm ]{kayt ol.jpg}}
+\caption{Kayıt olmamış kullanıcıların kayıt olması için olan ekran}
+\label{fig}
+\end{figure}
+
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=3.33in, height=6cm ]{hasta güncelle.jpg}}
+\caption{Hasta güncellemesinin yapılabildiği ekran}
+\label{fig}
+\end{figure}
+
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=3.33in, height=6cm ]{randevu güncelle.jpg}}
+\caption{Mevcut randevuların güncellenemsi için olan ekran }
+\label{fig}
+\end{figure}
+
+
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=3.33in, height=6cm ]{hasta ekle.jpg}}
+\caption{Hasta eklenebilmesini sağlayan yönetici ekranı }
+\label{fig}
+\end{figure}
+ 
+
+\section{Sonuç}
+Bu projeyle gerçek hayatta bölümümüzden en çok bulunan alanlardan biri olan bilgi işlem konusu üzerine,nesneye yönelik programlamanın kolaylaştırıcılığı ve düzenliliği üzerine ve son olarak da normalize edilmiş bir veri tabanındaki veri miktarının önemi olmadan ne kadar düzenliyse o kadar verimli ve o kadar kıymetli bir sistem olacağını öğrenmiş olduk.
+
+\section{Deneysel Sonuçlar}
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=3.33in, height=8.2cm ]{ER diagram.jpg}}
+\caption{Veri tabanınadki nesneleri ve aralarındaki ilişkileri ifade eden entity diagram }
+\label{fig}
+\end{figure}
+
+\section{Kaynakça}
+OpenAI-ChatGPT 3.5\\
+  Google Gemini \\
+\href{https://www.youtube.com/}{Çeşitli Youtube videoları}\\
+
+
+\end{document}

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Yeni Randevu Ekle{% endblock %}
+{% block content %}
+<div class="container">
+    <h1 class="mt-5">Yeni Randevu Ekle</h1>
+    <form method="POST">
+        <div class="form-group">
+            <label for="hasta">Hasta:</label>
+            <select class="form-control" id="hasta" name="hasta_id" required>
+                {% for hasta in hastalar %}
+                    <option value="{{ hasta[0] }}">{{ hasta[1] }} {{ hasta[2] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="uzmanlikAlani">Uzmanlık Alanı:</label>
+            <select class="form-control" id="uzmanlikAlani" name="uzmanlik_alani" required>
+                {% for uzmanlik in uzmanlik_alanlari %}
+                    <option value="{{ uzmanlik }}">{{ uzmanlik }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="doktor">Doktor:</label>
+            <select class="form-control" id="doktor" name="doktor_id" required>
+                <option value="">Önce Uzmanlık Alanı Seçiniz</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="randevu_tarihi">Randevu Tarihi:</label>
+            <input type="date" class="form-control" id="randevu_tarihi" name="randevu_tarihi" required>
+        </div>
+        <div class="form-group">
+            <label for="randevu_saati">Randevu Saati:</label>
+            <input type="time" class="form-control" id="randevu_saati" name="randevu_saati" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Ekle</button>
+        <a href="{{ url_for('randevular') }}" class="btn btn-secondary">Geri</a>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const uzmanlikAlaniSelect = document.getElementById('uzmanlikAlani');
+        const doktorSelect = document.getElementById('doktor');
+
+        uzmanlikAlaniSelect.addEventListener('change', function () {
+            const uzmanlikAlani = this.value;
+
+            fetch(`/doktorlar_getir/${uzmanlikAlani}`)
+                .then(response => response.json())
+                .then(data => {
+                    doktorSelect.innerHTML = '';
+
+                    data.doktorlar.forEach(doktor => {
+                        const option = document.createElement('option');
+                        option.value = doktor.doktor_id;
+                        option.textContent = `${doktor.ad} ${doktor.soyad}`;
+                        doktorSelect.appendChild(option);
+                    });
+                });
+        });
+
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementsByName("randevu_tarihi")[0].setAttribute('min', today);
+    });
+</script>
+{% endblock %}

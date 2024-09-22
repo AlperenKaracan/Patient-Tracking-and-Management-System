@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Doktorun Hastaları{% endblock %}
+{% block content %}
+<div class="container container-custom">
+    <h1>Doktorun Hastaları</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ad</th>
+                <th>Soyad</th>
+                <th>Doğum Tarihi</th>
+                <th>Cinsiyet</th>
+                <th>Telefon Numarası</th>
+                <th>Adres</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for hasta in hastalar %}
+            <tr>
+                <td>{{ hasta[0] }}</td>
+                <td>{{ hasta[1] }}</td>
+                <td>{{ hasta[2] }}</td>
+                <td>{{ hasta[3] }}</td>
+                <td>{{ hasta[4] }}</td>
+                <td>{{ hasta[5] }}</td>
+                <td>{{ hasta[6] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('doktorlar') }}" class="btn btn-secondary">Geri</a>
+</div>
+{% endblock %}

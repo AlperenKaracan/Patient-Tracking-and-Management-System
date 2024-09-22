@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Hastalarımın Randevuları{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Hastalarımın Randevuları</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Hasta Adı</th>
+                <th>Hasta Soyadı</th>
+                <th>Randevu Tarihi</th>
+                <th>Randevu Saati</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for randevu in randevular %}
+            <tr>
+                <td>{{ randevu[0] }}</td>
+                <td>{{ randevu[1] }}</td>
+                <td>{{ randevu[2] }}</td>
+                <td>{{ randevu[3] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Kayıt Ol{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Kayıt Ol</h2>
+    <form method="POST">
+        <div class="form-group">
+            <label for="kullanici_turu">Kullanıcı Türü:</label>
+            <select class="form-control" id="kullanici_turu" name="kullanici_turu" required>
+                <option value="Hasta">Hasta</option>
+                <option value="Doktor">Doktor</option>
+            </select>
+        </div>
+        <div id="common-fields">
+            <div class="form-group">
+                <label for="ad">Ad:</label>
+                <input type="text" class="form-control" id="ad" name="ad" required>
+            </div>
+            <div class="form-group">
+                <label for="soyad">Soyad:</label>
+                <input type="text" class="form-control" id="soyad" name="soyad" required>
+            </div>
+        </div>
+        <div id="hasta-fields" style="display: none;">
+            <div class="form-group">
+                <label for="dogum_tarihi">Doğum Tarihi:</label>
+                <input type="date" class="form-control" id="dogum_tarihi" name="dogum_tarihi">
+            </div>
+            <div class="form-group">
+                <label for="cinsiyet">Cinsiyet:</label>
+                <select class="form-control" id="cinsiyet" name="cinsiyet">
+                    <option value="Erkek">Erkek</option>
+                    <option value="Kadın">Kadın</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="telefon_numarasi">Telefon Numarası:</label>
+                <input type="tel" class="form-control" id="telefon_numarasi" name="telefon_numarasi">
+            </div>
+            <div class="form-group">
+                <label for="adres">Adres:</label>
+                <textarea class="form-control" id="adres" name="adres" rows="3"></textarea>
+            </div>
+        </div>
+        <div id="doktor-fields" style="display: none;">
+            <div class="form-group">
+                <label for="uzmanlik_alani">Uzmanlık Alanı:</label>
+                <select class="form-control" id="uzmanlik_alani" name="uzmanlik_alani">
+                    {% for uzmanlik in uzmanlik_alanlari %}
+                        <option value="{{ uzmanlik }}">{{ uzmanlik }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="calistigi_hastane">Çalıştığı Hastane:</label>
+                <select class="form-control" id="calistigi_hastane" name="calistigi_hastane">
+                    {% for hastane in hastaneler %}
+                        <option value="{{ hastane }}">{{ hastane }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Kayıt Ol</button>
+        <a href="{{ url_for('login') }}" class="btn btn-secondary">Giriş Yap</a>
+    </form>
+</div>
+
+<script>
+document.getElementById('kullanici_turu').addEventListener('change', function () {
+    var userType = this.value;
+    document.getElementById('hasta-fields').style.display = userType === 'Hasta' ? 'block' : 'none';
+    document.getElementById('doktor-fields').style.display = userType === 'Doktor' ? 'block' : 'none';
+});
+</script>
+{% endblock %}

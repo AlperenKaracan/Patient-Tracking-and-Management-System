@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Ana Sayfa{% endblock %}
+{% block content %}
+<div class="jumbotron jumbotron-custom">
+    <h1 class="display-4">Hasta Takip ve Doktor Yönetimi</h1>
+    <p class="lead">Hastaların kayıtlarını tutabilir, doktorlarla randevu alabilir ve randevuları görüntüleyebiliriz.</p>
+    <hr class="my-4">
+    <p>Daha fazla bilgi için aşağıdaki bağlantılara tıklayabilirsiniz:</p>
+    <div class="btn-custom-group">
+        <a class="btn btn-custom" href="/hastalar" role="button">Hastalar</a>
+        <a class="btn btn-custom" href="/doktorlar" role="button">Doktorlar</a>
+        <a class="btn btn-custom" href="/randevular" role="button">Randevular</a>
+    </div>
+</div>
+{% endblock %}
